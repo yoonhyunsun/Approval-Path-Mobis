@@ -1,0 +1,60 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-09-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <tr
+    class={rowStyles}
+    draggable="true"
+    ondragstart={onDragStart}
+    ondragover={onDragOver}
+    data-id={selectedContact.Id}
+  >
+    <th data-label="Order" scope="row">
+      <div class="slds-truncate" title="Number">{selectedContact.Order}</div>
+    </th>
+    <th data-label="Name" scope="row">
+      <div class="slds-truncate" title="Name">{selectedContact.Name}</div>
+    </th>
+    <th data-label="Position" scope="row">
+      <div class="slds-truncate" title="Position">
+        {selectedContact.PositionName__c}
+      </div>
+    </th>
+    <th data-label="Department" scope="row">
+      <div class="slds-truncate" title="Department">
+        {selectedContact.DepartmentName}
+      </div>
+    </th>
+    <th data-label="Approval Type" scope="row">
+      <div title="Approval Type">
+        <lightning-combobox
+          variant="label-hidden"
+          data-id={selectedContact.Id}
+          name="Approval Type"
+          value={selectedContact.ApprovalType}
+          options={approvalTypes}
+          onchange={handleApprovalTypeChange}
+          dropdown-alignment="auto"
+        ></lightning-combobox>
+      </div>
+    </th>
+    <th data-label="Delete" scope="row">
+      <div
+        class="slds-truncate"
+        title="Delete"
+        data-id={selectedContact.Id}
+        onclick={onUserDelete}
+        style="cursor: pointer"
+      >
+        <lightning-icon
+          size="small"
+          icon-name="utility:delete"
+        ></lightning-icon>
+      </div>
+    </th>
+  </tr>
+</template>

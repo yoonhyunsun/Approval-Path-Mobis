@@ -1,0 +1,423 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : proformaCmp
+  * Description  : CSV 파일을 읽어 각 Object Type 에 따라 아이템을 생성한다.
+  * Copyright    : Copyright © I2max. All Rights Reserved. 2022   
+  * Author       : Kyejin Cheong
+  * Created Date : 2022-11-14
+-->
+
+<!-- Proforma Csv Util Cmp -->
+<template>
+    <c-lwc-ufw-container-qa show-modal={isShowModal}>
+        <span slot="header">
+            <c-lwc-ufw-header-qa header-string={getHeader} remove-close-icon=true></c-lwc-ufw-header-qa>
+        </span>
+        <span slot="content">
+            <c-lwc-ufw-body-qa>
+                <!-- Spinner -->
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <!-- Summary -->
+                <p class="summary">
+                    <lightning-icon icon-name="utility:summary" size="x-small"></lightning-icon>
+                     Summary
+                </p>
+                <p>
+                    Entered Total Lines : {getEnteredTotalLines}
+                </p>
+                <p class="success">
+                    Success Lines : {getSuccessLines}
+                </p>
+                <p class="error">
+                    Error Lines : {getErrorLines}
+                </p>
+                <p>
+                    Change Description
+                </p>
+                <lightning-input data-id="description"></lightning-input>
+                <div class="slds-scrollable slds-m-top_small csvTable">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-bottom_small">
+                        <thead class="fixedHeader">
+                        <tr>
+                            <!-- Proforma -->
+                            <template if:true={getProformaFlag}>
+                                <!-- Index -->
+                                <th class="slds-text-align_right">{objectInfo.fields.Index__c.label}</th>
+                                <!-- OEM Status -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMStatus__c.label}</th>
+                                <!-- Project Status -->
+                                <th class="slds-text-align_right">{objectInfo.fields.ProjectStatus__c.label}</th>
+                                <!-- OI Target Year -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OITargetYear__c.label}</th>
+                                <!-- Deal Grade -->
+                                <th class="slds-text-align_right">{objectInfo.fields.DealGrade__c.label}</th>
+                                <!-- BU -->
+                                <th class="slds-text-align_right">{objectInfo.fields.BU__c.label}</th>
+                                <!-- Module & Parts -->
+                                <th class="slds-text-align_right">{objectInfo.fields.ModuleParts__c.label}</th>
+                                <!-- Team -->
+                                <th class="slds-text-align_right">{objectInfo.fields.Team__c.label}</th>
+                                <!-- Medium Product Group -->
+                                <th class="slds-text-align_right">{objectInfo.fields.MediumProductGroup__c.label}</th>
+                                <!-- Small Product Group -->
+                                <th class="slds-text-align_right">{objectInfo.fields.SmallProductGroup__c.label}</th>
+                                <!-- Product Description -->
+                                <th class="slds-text-align_right">{objectInfo.fields.ProductDescription__c.label}</th>
+                                <!-- Account -->
+                                <th class="slds-text-align_right">{objectInfo.fields.Account__c.label}</th>
+                                <!-- OI Managing Region -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OIManagingRegion__c.label}</th>
+                                <!-- Vehicle Project -->
+                                <th class="slds-text-align_right">{objectInfo.fields.VehicleProject__c.label}</th>
+                                <!-- SOP -->
+                                <th class="slds-text-align_right">{objectInfo.fields.SOP__c.label}</th>
+                                <!-- Mobis Plant -->
+                                <th class="slds-text-align_right">{objectInfo.fields.MobisPlant__c.label}</th>
+                                <!-- Sales Entity -->
+                                <th class="slds-text-align_right">{objectInfo.fields.SalesEntity__c.label}</th>
+                                <!-- Currency -->
+                                <th class="slds-text-align_right">Currency</th>
+                                <!-- Usage -->
+                                <th class="slds-text-align_right">{objectInfo.fields.Usage__c.label}</th>
+                                <!-- Relevant Year (Y+0) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY0__c.label}</th>
+                                <!-- Relevant Year (Y+1) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY1__c.label}</th>
+                                <!-- Relevant Year (Y+2) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY2__c.label}</th>
+                                <!-- Relevant Year (Y+3) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY3__c.label}</th>
+                                <!-- Relevant Year (Y+4) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY4__c.label}</th>
+                                <!-- Relevant Year (Y+5) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY5__c.label}</th>
+                                <!-- Relevant Year (Y+6) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY6__c.label}</th>
+                                <!-- Relevant Year (Y+7) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY7__c.label}</th>
+                                <!-- Relevant Year (Y+8) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY8__c.label}</th>
+                                <!-- Relevant Year (Y+9) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.RelevantYearY9__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+0) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY0__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+1) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY1__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+2) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY2__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+3) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY3__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+4) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY4__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+5) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY5__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+6) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY6__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+7) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY7__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+8) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY8__c.label}</th>
+                                <!-- OEM Vehicle Volume (Y+9) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OEMVehicleVolumeY9__c.label}</th>
+                                <!-- Piece Price (Y+0) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY0__c.label}</th>
+                                <!-- Piece Price (Y+1) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY1__c.label}</th>
+                                <!-- Piece Price (Y+2) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY2__c.label}</th>
+                                <!-- Piece Price (Y+3) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY3__c.label}</th>
+                                <!-- Piece Price (Y+4) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY4__c.label}</th>
+                                <!-- Piece Price (Y+5) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY5__c.label}</th>
+                                <!-- Piece Price (Y+6) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY6__c.label}</th>
+                                <!-- Piece Price (Y+7) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY7__c.label}</th>
+                                <!-- Piece Price (Y+8) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY8__c.label}</th>
+                                <!-- Piece Price (Y+9) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.PiecePriceY9__c.label}</th>
+                                <!-- Option Rate (Y+0) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY0__c.label}</th>
+                                <!-- Option Rate (Y+1) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY1__c.label}</th>
+                                <!-- Option Rate (Y+2) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY2__c.label}</th>
+                                <!-- Option Rate (Y+3) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY3__c.label}</th>
+                                <!-- Option Rate (Y+4) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY4__c.label}</th>
+                                <!-- Option Rate (Y+5) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY5__c.label}</th>
+                                <!-- Option Rate (Y+6) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY6__c.label}</th>
+                                <!-- Option Rate (Y+7) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY7__c.label}</th>
+                                <!-- Option Rate (Y+8) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY8__c.label}</th>
+                                <!-- Option Rate (Y+9) -->
+                                <th class="slds-text-align_right">{objectInfo.fields.OptionRateY9__c.label}</th>
+                            </template>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <template for:each={csvList} for:item='csv'>
+                            <tr key={csv.index}>
+                                <!-- Proforma -->
+                                <template if:true={getProformaFlag}>
+                                    <!-- Index -->
+                                    <td class="slds-text-align_right">
+                                        {csv.index}
+                                    </td>
+                                    <!-- OEM Status -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemStatus}
+                                    </td>
+                                    <!-- Project Status -->
+                                    <td class="slds-text-align_right">
+                                        {csv.projectStatus}
+                                    </td>
+                                    <!-- OI Target Year -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oiTargetYear}
+                                    </td>
+                                    <!-- Deal Grade -->
+                                    <td class="slds-text-align_right">
+                                        {csv.dealGrade}
+                                    </td>
+                                    <!-- BU -->
+                                    <td class="slds-text-align_right">
+                                        {csv.bu}
+                                    </td>
+                                    <!-- Module & Parts -->
+                                    <td class="slds-text-align_right">
+                                        {csv.moduleParts}
+                                    </td>
+                                    <!-- Large Product Group -->
+                                    <td class="slds-text-align_right">
+                                        {csv.team}
+                                    </td>
+                                    <!-- Medium Product Group -->
+                                    <td class="slds-text-align_right">
+                                        {csv.mediumProductGroup}
+                                    </td>
+                                    <!-- Small Product Group -->
+                                    <td class="slds-text-align_right">
+                                        {csv.smallProductGroup}
+                                    </td>
+                                    <!-- Product Description -->
+                                    <td class="slds-text-align_right">
+                                        {csv.productDescription}
+                                    </td>
+                                    <!-- Account -->
+                                    <td class="slds-text-align_right">
+                                        {csv.accounts}
+                                    </td>
+                                    <!-- OI Managing Region -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oiManagingRegion}
+                                    </td>
+                                    <!-- Vehicle Project -->
+                                    <td class="slds-text-align_right">
+                                        {csv.vehicleProject}
+                                    </td>
+                                    <!-- SOP -->
+                                    <td class="slds-text-align_right">
+                                        {csv.sop}
+                                    </td>
+                                    <!-- Mobis Plant -->
+                                    <td class="slds-text-align_right">
+                                        {csv.mobisPlant}
+                                    </td>
+                                    <!-- Sales Entity -->
+                                    <td class="slds-text-align_right">
+                                        {csv.salesEntity}
+                                    </td>
+                                    <!-- Currency -->
+                                    <td class="slds-text-align_right">
+                                        {csv.currencyIsoCode}
+                                    </td>
+                                    <!-- Usage -->
+                                    <td class="slds-text-align_right">
+                                        {csv.usage}
+                                    </td>
+                                    <!-- Relevant Year (Y+0) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY0}
+                                    </td>
+                                    <!-- Relevant Year (Y+1) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY1}
+                                    </td>
+                                    <!-- Relevant Year (Y+2) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY2}
+                                    </td>
+                                    <!-- Relevant Year (Y+3) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY3}
+                                    </td>
+                                    <!-- Relevant Year (Y+4) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY4}
+                                    </td>
+                                    <!-- Relevant Year (Y+5) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY5}
+                                    </td>
+                                    <!-- Relevant Year (Y+6) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY6}
+                                    </td>
+                                    <!-- Relevant Year (Y+7) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY7}
+                                    </td>
+                                    <!-- Relevant Year (Y+8) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY8}
+                                    </td>
+                                    <!-- Relevant Year (Y+9) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.relevantYearY9}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+0) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY0}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+1) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY1}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+2) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY2}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+3) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY3}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+4) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY4}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+5) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY5}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+6) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY6}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+7) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY7}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+8) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY8}
+                                    </td>
+                                    <!-- OEM Vehicle Volume (Y+9) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.oemVehicleVolumeY9}
+                                    </td>
+                                    <!-- Piece Price (Y+0) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY0}
+                                    </td>
+                                    <!-- Piece Price (Y+1) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY1}
+                                    </td>
+                                    <!-- Piece Price (Y+2) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY2}
+                                    </td>
+                                    <!-- Piece Price (Y+3) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY3}
+                                    </td>
+                                    <!-- Piece Price (Y+4) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY4}
+                                    </td>
+                                    <!-- Piece Price (Y+5) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY5}
+                                    </td>
+                                    <!-- Piece Price (Y+6) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY6}
+                                    </td>
+                                    <!-- Piece Price (Y+7) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY7}
+                                    </td>
+                                    <!-- Piece Price (Y+8) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY8}
+                                    </td>
+                                    <!-- Piece Price (Y+9) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.piecePriceY9}
+                                    </td>
+                                    <!-- Option Rate (Y+0) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY0}
+                                    </td>
+                                    <!-- Option Rate (Y+1) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY1}
+                                    </td>
+                                    <!-- Option Rate (Y+2) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY2}
+                                    </td>
+                                    <!-- Option Rate (Y+3) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY3}
+                                    </td>
+                                    <!-- Option Rate (Y+4) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY4}
+                                    </td>
+                                    <!-- Option Rate (Y+5) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY5}
+                                    </td>
+                                    <!-- Option Rate (Y+6) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY6}
+                                    </td>
+                                    <!-- Option Rate (Y+7) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY7}
+                                    </td>
+                                    <!-- Option Rate (Y+8) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY8}
+                                    </td>
+                                    <!-- Option Rate (Y+9) -->
+                                    <td class="slds-text-align_right">
+                                        {csv.optionRateY9}
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                </div>
+            </c-lwc-ufw-body-qa>
+        </span>
+        <span slot="footer">
+            <c-lwc-ufw-footer-qa>
+                <lightning-button label={label.COM_BTN_CANCEL} onclick={doCancel} class="slds-m-right_xx-small"></lightning-button>
+                <lightning-button label={label.COM_BTN_SAVE} variant="brand" onclick={doSave} disabled={getSaveDisabled}></lightning-button>
+            </c-lwc-ufw-footer-qa>
+        </span>
+    </c-lwc-ufw-container-qa>
+</template>

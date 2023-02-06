@@ -1,0 +1,121 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : planningCSVUtilCmp
+  * Description  : CSV 파일을 읽어 각 Object Type 에 따라 아이템을 생성한다.
+  * Copyright    : Copyright © I2max. All Rights Reserved. 2022   
+  * Author       : Hyunsun Yoon, Kwak Chaewon
+  * Created Date : 2022-11-25
+-->
+
+<!-- Proforma Csv Util Cmp -->
+<template>
+    <c-lwc-ufw-container-qa show-modal={isShowModal}>
+        <span slot="header">
+            <c-lwc-ufw-header-qa header-string={getHeader} remove-close-icon=true></c-lwc-ufw-header-qa>
+        </span>
+        <span slot="content">
+            <c-lwc-ufw-body-qa>
+                <!-- Spinner -->
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <!-- Summary -->
+                <p class="summary">
+                    <lightning-icon icon-name="utility:summary" size="x-small"></lightning-icon>
+                    Summary
+                </p>
+                <p>
+                    Entered Total Lines : {getEnteredTotalLines}
+                </p>
+                <p class="success">
+                    Success Lines : {getSuccessLines}
+                </p>
+                <p class="error">
+                    Error Lines : {getErrorLines}
+                </p>
+
+                <div class="slds-scrollable slds-m-top_small csvTable">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-bottom_small">
+                        <thead class="fixedHeader">
+                            <tr>
+                                <!-- Planning -->
+                                <template if:true={getPlanningFlag}>
+                                    <!-- Index -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.Index__c.label}</th>
+                                    <!-- BU -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.BU__c.label}</th>
+                                    <!-- Team -->
+                                    <th class="slds-text-align_right">Team</th>
+                                    <!-- OI Managing Region -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.OIManagingRegion__c.label}</th>
+                                    <!-- Account -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.Account__c.label}</th>
+                                    <!-- Expected Month -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.Date__c.label}</th>
+                                    <!-- Weighted LTR -->
+                                    <th class="slds-text-align_right">{objectInfo.fields.WeightedLTR__c.label}</th>
+                                </template>
+                                <!-- Message -->
+                                <th>Error Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={csvList} for:item='csv'>
+                                <tr key={csv.index}>
+                                    <!-- Planning -->
+                                    <template if:true={getPlanningFlag}>
+                                        <!-- Index -->
+                                        <td class="slds-text-align_right">
+                                            {csv.index}
+                                        </td>
+                                        <!-- BU -->
+                                        <td class="slds-text-align_right">
+                                            {csv.bu}
+                                        </td>
+                                        <!-- Team -->
+                                        <td class="slds-text-align_right">
+                                            {csv.team}
+                                        </td>
+                                        <!-- OI Managing Region -->
+                                        <td class="slds-text-align_right">
+                                            {csv.oiManagingRegion}
+                                        </td>
+                                        <!-- Account -->
+                                        <td class="slds-text-align_right">
+                                            {csv.account}
+                                        </td>
+                                        <!-- Expected Month -->
+                                        <td class="slds-text-align_right">
+                                            {csv.expectedMonth}
+                                        </td>
+                                        <!-- Planning Amount -->
+                                        <td class="slds-text-align_right">
+                                            {csv.planningAmount}
+                                        </td>
+                                    </template>
+                                    <td title={csv.errorMessage}>
+                                        {csv.errorMessage}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </c-lwc-ufw-body-qa>
+        </span>
+        <span slot="footer">
+            <c-lwc-ufw-footer-qa>
+                <lightning-button label={label.COM_BTN_CANCEL} onclick={doCancel} class="slds-m-right_xx-small">
+                </lightning-button>
+                <template if:true={isShowSave}>
+                    <lightning-button label={label.COM_BTN_SAVE} variant="brand" onclick={doSave}
+                        disabled={getSaveDisabled}></lightning-button>
+                </template>
+                <template if:false={isShowSave}>
+                    <lightning-button label={label.COM_BTN_SAVE} variant="brand" disabled class="slds-m-left_x-small">
+                    </lightning-button>
+                </template>
+            </c-lwc-ufw-footer-qa>
+        </span>
+    </c-lwc-ufw-container-qa>
+</template>

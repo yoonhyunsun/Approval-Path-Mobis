@@ -1,0 +1,79 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 09-23-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <lightning-quick-action-panel header="Enter Approval Path">
+    <div class="slds-var-m-bottom_medium">
+      <div class="slds-grid slds-gutters slds-var-m-bottom_medium">
+        <div class="slds-col">
+          <lightning-input
+            value={name}
+            onchange={onNameChange}
+            type="text"
+            label="Name"
+          ></lightning-input>
+        </div>
+        <div class="slds-col">
+          <lightning-input
+            value={department}
+            onchange={onDepartmentChange}
+            type="text"
+            label="Department"
+          ></lightning-input>
+        </div>
+        <div class="slds-col" style="align-self: end">
+          <lightning-button
+            variant="brand"
+            label="Search"
+            title="Primary action"
+            onclick={handleClick}
+            class="slds-var-m-left_x-small"
+          ></lightning-button>
+        </div>
+      </div>
+      <div class="slds-m-bottom_xx-large">
+        <c-contact-table
+          selected-contacts={selectedContacts}
+          contacts={contacts.data}
+          onuserclick={onContactTableClick}
+        ></c-contact-table>
+      </div>
+      <div>
+        <c-selected-contacts-table
+          onuserdelete={onSelectedContactDelete}
+          selected-contacts={selectedContacts}
+          onapprovaltypeselect={approvalTypeSelect}
+          ondeleteselected={onSelectedContactsDelete}
+          onfavoritegroupselect={onFavoriteGroupSelect}
+        ></c-selected-contacts-table>
+      </div>
+    </div>
+
+    <div slot="footer">
+      <lightning-button
+        onclick={onSaveFavorite}
+        variant="brand"
+        label="Save as Favorite"
+      ></lightning-button>
+
+      <lightning-button
+        variant="neutral"
+        label="Cancel"
+        onclick={onCancel}
+        class="slds-m-left_x-small"
+      ></lightning-button>
+
+      <lightning-button
+        onclick={onSave}
+        variant="brand"
+        label="Save"
+        class="slds-m-left_x-small"
+      ></lightning-button>
+    </div>
+  </lightning-quick-action-panel>
+</template>

@@ -1,0 +1,71 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwCommunityHeader
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <div class="slds-page-header--object-home slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader slds-m-bottom--xx-small"
+         style="padding-right:0; padding-left:0; width:100%; background:white;">
+        <div class="slds-is-relative">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-no-space slds-grow slds-m-left--medium">
+                        <!-- Icon -->
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name={iconName}></lightning-icon>
+                        </div>
+                        <div class="slds-media__body slds-align-middle">
+                            <!-- Sub Title -->
+                            <nav role="navigation" aria-label="Breadcrumbs">
+                                <ol class="slds-breadcrumb slds-list--horizontal">
+                                    <li class="slds-breadcrumb__item slds-line-height--reset">
+                                        <span class="uiOutputText">{type}</span>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <!-- Title -->
+                            <h1 class="slds-page-header__title slds-text-color--default slds-p-right--x-small">
+                                {title}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom--xx-small test-lvmForceActionsContainer slds-m-right--medium">
+                    <slot name="buttons"></slot>
+                </div>
+            </div>
+
+            <template if:true={condition1}>
+                <div class="slds-grid slds-m-top--small slds-m-left--small">
+                    <div class="slds-col slds-align-bottom" >
+                        <div class="slds-form--inline">
+                            <slot name="condition1"></slot>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={condition2}>
+                <div class="slds-grid slds-m-top--small slds-m-left--small">
+                    <div class="slds-col slds-align-bottom" >
+                        <div class="slds-form--inline">
+                            <slot name="condition2"></slot>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={condition3}>
+                <div class="slds-grid slds-m-top--small slds-m-left--small">
+                    <div class="slds-col slds-align-bottom" >
+                        <div class="slds-form--inline">
+                            <slot name="condition3"></slot>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

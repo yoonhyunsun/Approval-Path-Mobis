@@ -1,0 +1,78 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 01-31-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div if:true={quipDocument.isLoading} class="approval_loader">
+    <div>
+      <c-spinner></c-spinner>
+      <h2 class="slds-text-color_default slds-text-align_center">
+        {labels.LOAD_QUIP_DOC}
+      </h2>
+    </div>
+  </div>
+  <div class="slds-grid slds-gutters" if:false={showFields}>
+    <div class="slds-col">
+      <lightning-record-edit-form object-api-name="ApprovalProcess__c">
+        <lightning-messages></lightning-messages>
+
+        <lightning-input-field
+          variant="label-stacked"
+          value={ApprovalProcessName}
+          field-name="Name"
+        ></lightning-input-field>
+
+        <lightning-input-field
+          variant="label-stacked"
+          value={opportunityId}
+          field-name="Opportunity__c"
+          disabled
+        ></lightning-input-field>
+
+        <lightning-input-field
+          if:true={reportData.reportType}
+          variant="label-stacked"
+          disabled
+          value={reportData.reportType}
+          field-name="ReportType__c"
+        ></lightning-input-field>
+
+        <lightning-input-field
+          variant="label-stacked"
+          field-name="OwnerId"
+        ></lightning-input-field>
+
+        <lightning-input-field
+          variant="label-stacked"
+          disabled
+          field-name="QuipURL__c"
+          value={reportData.quipDocUrl}
+        ></lightning-input-field>
+
+        <!-- hide info that will be copied -->
+        <div class="slds-col slds-size_1-of-2 slds-hidden">
+          <lightning-input-field
+            variant="label-stacked"
+            value={OpportunityStage}
+            field-name="Opportunity_Stage__c"
+          ></lightning-input-field>
+        </div>
+        <lightning-button
+          class="slds-var-m-top_small slds-hidden"
+          variant="brand"
+          type="submit"
+          name="update"
+          label="Update"
+        >
+        </lightning-button>
+      </lightning-record-edit-form>
+    </div>
+    <div class="slds-col">
+      <!-- <c-pdf-viewer showmodal="true" url={docUrl}> </c-pdf-viewer> -->
+      <c-custom-pdf-viewer-v-f pdf-url={docUrl}></c-custom-pdf-viewer-v-f>
+    </div>
+  </div>
+</template>

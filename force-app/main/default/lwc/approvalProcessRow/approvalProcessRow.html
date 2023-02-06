@@ -1,0 +1,72 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 12-08-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <tr>
+    <td data-label="Order" scope="row">
+      <div title="Order">
+        <span tabindex="-1">{row.Order}</span>
+      </div>
+    </td>
+    <td data-label="Report" scope="row">
+      <div title="Report">
+        <a tabindex="-1" data-id={row.Id} onclick={onReportClick}
+          >{row.Report}</a
+        >
+      </div>
+    </td>
+    <td data-label="ApprovalStatus__c" scope="row">
+      <div title="ApprovalStatus">
+        <span>{row.ApprovalStatus__c}</span>
+      </div>
+    </td>
+
+    <td data-label="LastModifiedDate" scope="row">
+      <div title="LastModifiedDate">
+        <span
+          ><lightning-formatted-date-time
+            value={row.LastModifiedDate}
+            year="numeric"
+            month="numeric"
+            day="numeric"
+            hour="2-digit"
+            minute="2-digit"
+            second="2-digit"
+            hour12={ampm}
+          ></lightning-formatted-date-time
+        ></span>
+      </div>
+    </td>
+
+    <td data-label="CreatedDate" scope="row">
+      <div title="CreatedDate">
+        <span tabindex="-1"
+          ><lightning-formatted-date-time
+            value={row.CreatedDate}
+            year="numeric"
+            month="numeric"
+            day="numeric"
+            hour="2-digit"
+            minute="2-digit"
+            second="2-digit"
+            hour12={ampm}
+          ></lightning-formatted-date-time
+        ></span>
+      </div>
+    </td>
+
+    <td class="slds-cell_action-mode" role="gridcell">
+      <lightning-button
+        if:true={showCancelButton}
+        variant="base"
+        label="Recall"
+        title="Looks like a link"
+        onclick={onHandleCancel}
+      ></lightning-button>
+    </td>
+  </tr>
+</template>

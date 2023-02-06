@@ -1,0 +1,17 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwSearchItem
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <div class="i2-searchItem-p__right">
+        <template if:true={hasLabel}>
+            <label class="slds-form-element__label i2-searchItem-p__bottom">{labelName}</label>
+        </template>
+
+        <slot></slot>
+    </div>
+</template>

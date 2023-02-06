@@ -1,0 +1,50 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-16-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div class="spinner-container-outer slds-is-relative">
+    <template if:true={loader}>
+      <lightning-spinner variant="brand" size="medium"></lightning-spinner>
+    </template>
+
+    <lightning-modal-body>
+      <div class="slds-var-m-bottom_small slds-border_bottom">
+        <div class="slds-text-align_center">
+          <div class="slds-grid slds-grid_align-center">
+            <div class="slds-col">
+              <h2 class="slds-text-heading_large">
+                {labels.AP_CHANGE_APPROVER}
+              </h2>
+            </div>
+
+            <c-approval-rule-document show="true"></c-approval-rule-document>
+          </div>
+        </div>
+      </div>
+
+      <c-contact-searcher
+        type="edit"
+        onsubmitsuccess={onSubmitSuccess}
+        record-id={recordId}
+      ></c-contact-searcher>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+      <lightning-button
+        variant="neutral"
+        label={labels.COM_BTN_CANCEL}
+        onclick={onCancel}
+      ></lightning-button>
+
+      <lightning-button
+        onclick={onSave}
+        variant="brand"
+        label={labels.COM_BTN_SAVE}
+        class="slds-var-m-left_x-small"
+      ></lightning-button>
+    </lightning-modal-footer>
+  </div>
+</template>

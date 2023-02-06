@@ -1,0 +1,62 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwInternalHeader
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <div class="slds-page-header">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name={iconName}></lightning-icon>
+                    </div>
+                    <div class="slds-media__body slds-align-middle">
+                        <nav role="navigation" aria-label="Breadcrumbs">
+                            <ol class="slds-breadcrumb slds-list--horizontal">
+                                <li class="slds-breadcrumb__item slds-line-height--reset">
+                                    <span class="uiOutputText">{type}</span>
+                                </li>
+                            </ol>
+                        </nav>
+                        <h1 class="slds-page-header__title slds-text-color--default slds-p-right--x-small" title={title}>
+                            {title}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom--xx-small test-lvmForceActionsContainer">
+                <slot name="buttons"></slot>
+            </div>
+        </div>
+
+        <!-- Condition1 -->
+        <template if:true={condition1}>
+            <span class="slds-list_horizontal slds-m-top--x-small">
+                <span class="slds-col slds-align-bottom slds-form--inline">
+                    <slot name="condition1"></slot>
+                </span>
+            </span>
+        </template>
+        <!-- Condition2 -->
+        <template if:true={condition2}>
+            <span class="slds-list_horizontal slds-m-top--x-small">
+                <span class="slds-col slds-align-bottom slds-form--inline">
+                    <slot name="condition2"></slot>
+                </span>
+            </span>
+        </template>
+        <!-- Condition3 -->
+        <template if:true={condition3}>
+            <span class="slds-list_horizontal slds-m-top--x-small">
+                <span class="slds-col slds-align-bottom slds-form--inline">
+                    <slot name="condition3"></slot>
+                </span>
+            </span>
+        </template>
+    </div>
+</template>

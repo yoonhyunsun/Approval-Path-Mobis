@@ -1,0 +1,13 @@
+.move {
+  cursor: move;
+  transition: all 3s;
+}
+
+.opacity_zero {
+  opacity: 0;
+}
+
+.disabledRow {
+  pointer-events: none;
+  opacity: 0.4;
+}

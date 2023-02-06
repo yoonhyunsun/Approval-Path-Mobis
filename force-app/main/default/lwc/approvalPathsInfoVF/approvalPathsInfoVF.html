@@ -1,0 +1,48 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-15-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <lightning-card style="color: black;" title="Comments">
+    <template if:true={tableData.approval_paths}>
+      <div class="slds-box" style="max-height: 300px; overflow: auto">
+        <template for:each={tableData.approval_paths} for:item="el">
+          <div key={el.id}>
+            <div class="slds-m-vertical_x-small" if:true={el.comment}>
+              <div class="slds-text-heading_small bold_font" style="color: black;">{el.department} {el.employee} {el.title}</div>
+              <div class="slds-text-body_small slds-p-vertical_xxx-small slds-text-color_weak">
+                {el.approval_datetime}
+              </div>
+              <div class="slds-m-vertical_x-small">
+                <lightning-formatted-rich-text style="color: black;"
+                  value={el.comment}
+                ></lightning-formatted-rich-text>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </template>
+  </lightning-card>
+  <lightning-card
+    title={labels.AP_PROCESS_PATHS}
+    icon-name="standard:approval"
+    class="slds-card_boundary"
+  >
+    <lightning-button
+      icon-name="utility:refresh"
+      label={labels.COM_BTN_REFRESH}
+      slot="actions"
+      onclick={handleClickTableRefreshButton}
+    ></lightning-button>
+    <c-custom-table-approval-path
+      key-field="id"
+      columns={columns}
+      data={tableData.approval_paths}
+      hide-checkbox-column
+    ></c-custom-table-approval-path>
+  </lightning-card>
+</template>

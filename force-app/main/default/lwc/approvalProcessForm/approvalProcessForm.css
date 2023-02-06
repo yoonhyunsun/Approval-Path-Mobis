@@ -1,0 +1,10 @@
+c-pdf-viewer {
+  width: 800px;
+}
+
+.approval_loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}

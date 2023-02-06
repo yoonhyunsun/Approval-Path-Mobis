@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 10-19-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div style="display: flex; justify-content: center">
+    <lightning-button
+      label="Approve"
+      title="Approve"
+      onclick={onApprove}
+    ></lightning-button>
+    <lightning-button
+      class="slds-var-m-left_x-small"
+      label="Reject"
+      title="Reject"
+      onclick={onReject}
+    ></lightning-button>
+
+    <template if:true={isApprove}>
+      <c-rich-text-modal
+        record-id={recordId}
+        oncancel={onCancel}
+        onsave={onApproved}
+      ></c-rich-text-modal>
+    </template>
+
+    <template if:true={isReject}>
+      <c-rich-text-modal
+        record-id={recordId}
+        oncancel={onCancel}
+        onsave={onRejected}
+      ></c-rich-text-modal>
+    </template>
+  </div>
+</template>

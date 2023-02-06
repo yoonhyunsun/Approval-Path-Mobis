@@ -1,0 +1,197 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 02-04-2023
+  @last modified by  : Bekhzod Ubaydullaev
+-->
+<template>
+  <div if:true={found}>
+    <div if:true={show}>
+      <c-approval-process-path-button-v-f
+        uid={uid}
+      ></c-approval-process-path-button-v-f>
+    </div>
+
+    <div>
+      <c-custom-pdf-viewer-v-f pdf-url={pdfUrl}></c-custom-pdf-viewer-v-f>
+
+      <c-approval-paths-info-v-f
+        uid={uid}
+        onrefresh={handleRefresh}
+      ></c-approval-paths-info-v-f>
+
+      <lightning-card title="Information">
+        <div class="slds-var-p-around_small">
+          <div class="slds-var-p-horizontal_small">
+            <div class="slds-form" role="list">
+              <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label"
+                      >Approval Process</span
+                    >
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.process_name}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Opportunity</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.opportunity_name}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Employee</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.employee_name}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Approval Type</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.approval_type}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Department</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.department}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label"
+                      >Request DateTime</span
+                    >
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.request_datetime}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Open DateTime</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.open_datetime}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label"
+                      >Approval DateTime</span
+                    >
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.approval_datetime}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label">Comment</span>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        <lightning-formatted-rich-text value={result.comment}>
+                        </lightning-formatted-rich-text>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="slds-form__item" role="listitem">
+                  <div
+                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent"
+                  >
+                    <span class="slds-form-element__label"
+                      >Approval Status</span
+                    >
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element__static">
+                        {result.approval_status}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="slds-form__item" role="listitem">
+                  <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label"></span>
+                    <div class="slds-form-element__control"></div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </lightning-card>
+    </div>
+  </div>
+
+  <div if:false={found} class="slds-is-relative">
+    <lightning-card class="slds-align_absolute-center">
+      <div class="slds-text-heading_large slds-var-p-around_xx-large">
+        Approval Process Path not found or has been cancelled
+      </div>
+    </lightning-card>
+  </div>
+</template>

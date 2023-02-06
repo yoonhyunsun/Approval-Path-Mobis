@@ -1,0 +1,33 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwContainer
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <div class="slds-is-relative">
+        <template if:true={isSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+
+        <!-- Header -->
+        <slot name="header"></slot>
+
+        <!-- Content -->
+        <div class={getContentClass}>
+            <slot name="content"></slot>
+        </div>
+
+        <!-- Footer -->
+        <div class={getFooterClass}>
+            <slot name="footer"></slot>
+        </div>
+
+        <!-- QuickAction -->
+        <div class={getQuickActionClass}>
+            <slot name="quickAction"></slot>
+        </div>
+    </div>
+</template>

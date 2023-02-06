@@ -1,0 +1,16 @@
+<template>
+  <section role="dialog" tabindex="-1" class={modalClass} aria-labelledby="modal-heading-01" aria-modal="true">
+      <div class="slds-modal__container">
+          <div class="slds-modal__header">
+              <slot name="headercontent">Default content</slot>
+          </div>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+              <slot name="bodycontent">Default content</slot>
+          </div>
+          <div class="slds-modal__footer">
+              <slot name="footercontent">Default content</slot>
+          </div>
+      </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

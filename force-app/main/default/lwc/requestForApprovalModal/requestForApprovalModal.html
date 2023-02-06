@@ -1,0 +1,87 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-29-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div class="spinner-container-outer slds-is-relative">
+    <template if:true={loader}>
+      <lightning-spinner variant="brand" size="medium"></lightning-spinner>
+    </template>
+
+    <lightning-modal-body>
+      <template if:true={errorMessage}>
+        <div class="error_container">Error: {errorMessage}</div>
+      </template>
+      <template if:false={errorMessage}>
+        <template if:true={isStageNegotiation}>
+          <div class="">
+            <c-negotiation-form
+              onchange={onNegotiationReportChange}
+            ></c-negotiation-form>
+          </div>
+        </template>
+        <template if:false={isStageNegotiation}>
+          <div class="slds-m-bottom_small slds-border_bottom">
+            <div class="slds-text-align_center">
+              <div class="slds-grid slds-grid_align-center">
+                <div class="slds-col">
+                  <h2 class="slds-text-heading_large">{header}</h2>
+                </div>
+
+                <c-approval-rule-document
+                  show={isFillApprovalProcessPathForm}
+                ></c-approval-rule-document>
+              </div>
+            </div>
+          </div>
+          <div if:true={isFillApprovalProcessForm}>
+            <c-approval-process-form
+              opportunity-id={recordId}
+              report-data={reportData}
+              onprocessing={onProcess}
+            ></c-approval-process-form>
+          </div>
+
+          <div if:true={isFillApprovalProcessPathForm}>
+            <c-contact-searcher
+              onsubmitsuccess={onSubmitSuccess}
+              record-id={recordId}
+            ></c-contact-searcher>
+          </div>
+        </template>
+      </template>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+      <lightning-button
+        variant="neutral"
+        label={labels.COM_BTN_CANCEL}
+        onclick={onCancel}
+      ></lightning-button>
+      <lightning-button
+        if:true={isFillApprovalProcessPathForm}
+        onclick={onSaveFavorite}
+        variant="brand"
+        label={labels.AP_SAVE_AS_FAVORITE}
+        class="slds-var-m-left_x-small"
+      ></lightning-button>
+      <lightning-button
+        onclick={onSave}
+        if:true={isFillApprovalProcessForm}
+        variant="brand"
+        disabled={disableButton}
+        label={labels.COM_BTN_SAVE}
+        class="slds-var-m-left_x-small"
+      ></lightning-button>
+      <lightning-button
+        if:true={isFillApprovalProcessPathForm}
+        onclick={onSubmitForApproval}
+        variant="brand"
+        label={labels.AP_SUBMIT_APPROVAL}
+        class="slds-var-m-left_x-small"
+      ></lightning-button>
+    </lightning-modal-footer>
+  </div>
+</template>

@@ -1,0 +1,74 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-15-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div
+    if:true={showChild}
+    class="slds-var-m-top_medium slds-var-m-bottom_x-large"
+    style="justify-content: end; display: flex"
+  >
+    <lightning-button-group>
+      <lightning-button
+        label="Approve"
+        variant="brand-outline"
+        icon-name="utility:check"
+        onclick={handleApproveClick}
+      ></lightning-button>
+      <lightning-button
+        label="Reject"
+        variant="brand-outline"
+        icon-name="utility:close"
+        onclick={handleRejectClick}
+      ></lightning-button>
+    </lightning-button-group>
+  </div>
+
+  <div if:true={showComment}>
+    <section
+      role="dialog"
+      tabindex="0"
+      aria-modal="true"
+      aria-labelledby="prompt-heading-id"
+      aria-describedby="prompt-message-wrapper"
+      class="slds-modal slds-fade-in-open slds-modal_prompt"
+    >
+      <div class="slds-modal__container">
+        <div
+          class="slds-modal__header slds-theme_default slds-theme_alert-texture"
+        >
+          <h1 class="slds-text-heading_medium" id="prompt-heading-id">
+            {labels.AP_COMMENT}
+          </h1>
+        </div>
+        <div
+          class="slds-modal__content slds-var-p-around_medium"
+          id="prompt-message-wrapper"
+        >
+          <!-- Rich text editor and formatted output -->
+          <lightning-input-rich-text
+            value={comment}
+            formats={formats}
+            onchange={handleRichTextChange}
+          ></lightning-input-rich-text>
+        </div>
+
+        <div class="slds-modal__footer slds-theme_default">
+          <button
+            class="slds-button slds-button_neutral"
+            onclick={closeCommentBlock}
+          >
+            {labels.COM_BTN_CANCEL}
+          </button>
+          <button class="slds-button slds-button_brand" onclick={saveComment}>
+            {labels.COM_BTN_OK}
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+  </div>
+</template>

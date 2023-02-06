@@ -1,0 +1,26 @@
+.contents {
+  display: contents;
+}
+
+table {
+  border-spacing: 0 10px;
+  border-collapse: separate;
+}
+
+.header_row {
+  height: 40px;
+}
+
+.table_wrapper {
+  /* style="display: block; overflow-x: auto; white-space: nowrap" */
+  display: block;
+  overflow-x: auto;
+  /* @sldsValidatorIgnore */
+  white-space: nowrap;
+  min-height: 230px;
+}
+
+.disabledRow {
+  pointer-events: none;
+  opacity: 0.4;
+}

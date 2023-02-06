@@ -1,0 +1,65 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwHeader
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <div>
+        <!-- Internal Header -->
+        <template if:false={isCommunity}>
+            <c-lwc-ufw-internal-header icon-name={iconName}
+                                       type={type}
+                                       title={title}
+                                       condition-1={condition1}
+                                       condition-2={condition2}
+                                       condition-3={condition3}>
+                <!-- Button 영역 -->
+                <div slot="buttons">
+                    <slot name="buttons"></slot>
+                </div>
+                <!-- Condition1 영역 -->
+                <div slot="condition1">
+                    <slot name="condition1"></slot>
+                </div>
+                <!-- Condition2 Button 영역 -->
+                <div slot="condition2">
+                    <slot name="condition2"></slot>
+                </div>
+                <!-- Condition3 Button 영역 -->
+                <div slot="condition3">
+                    <slot name="condition3"></slot>
+                </div>
+            </c-lwc-ufw-internal-header>
+        </template>
+
+        <!-- Community Header -->
+        <template if:true={isCommunity}>
+            <c-lwc-ufw-community-header icon-name={iconName}
+                                        type={type}
+                                        title={title}
+                                        condition-1={condition1}
+                                        condition-2={condition2}
+                                        condition-3={condition3}>
+                <!-- Button 영역 -->
+                <div slot="buttons">
+                    <slot name="buttons"></slot>
+                </div>
+                <!-- Condition1 영역 -->
+                <div slot="condition1">
+                    <slot name="condition1"></slot>
+                </div>
+                <!-- Condition2 Button 영역 -->
+                <div slot="condition2">
+                    <slot name="condition2"></slot>
+                </div>
+                <!-- Condition3 Button 영역 -->
+                <div slot="condition3">
+                    <slot name="condition3"></slot>
+                </div>
+            </c-lwc-ufw-community-header>
+        </template>
+    </div>
+</template>

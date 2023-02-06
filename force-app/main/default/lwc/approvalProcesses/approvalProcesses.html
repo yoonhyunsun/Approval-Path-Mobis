@@ -1,0 +1,74 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 12-07-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <lightning-card>
+    <div class="slds-grid slds-grid_align-spread">
+      <div class="slds-col">
+        <lightning-tile label="Approval" type="media">
+          <lightning-icon
+            slot="media"
+            icon-name="standard:approval"
+          ></lightning-icon>
+
+          <p class="slds-m-bottom_xx-small">
+            {tableLength} {labels.AP_APPROVAL_PROCESSES}
+          </p>
+        </lightning-tile>
+      </div>
+      <div class="slds-col">
+        <lightning-button-icon
+          style="cursor: pointer"
+          icon-name="utility:refresh"
+          alternative-text="refresh"
+          onclick={onRefresh}
+        ></lightning-button-icon>
+      </div>
+    </div>
+    <div style="display: block; overflow-x: auto; white-space: nowrap">
+      <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered"
+        aria-label="Example default base table of Opportunities"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Number">№</div>
+            </th>
+            <template for:each={columns} for:item="el">
+              <th class="" scope="col" key={el.id}>
+                <div class="slds-truncate" title="Report">{el.label}</div>
+              </th>
+            </template>
+            <th
+              class="slds-cell_action-mode"
+              scope="col"
+              style="width: 3.25rem"
+            >
+              <div class="slds-truncate slds-assistive-text" title="Actions">
+                Actions
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={tableData}>
+            <template for:each={tableData} for:item="el">
+              <c-approval-process-row
+                onrefresh={onRefresh}
+                class="approvalProcessRow"
+                row={el}
+                key={el.Id}
+              ></c-approval-process-row>
+            </template>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </lightning-card>
+</template>

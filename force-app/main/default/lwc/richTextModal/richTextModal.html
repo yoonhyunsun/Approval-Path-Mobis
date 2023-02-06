@@ -1,0 +1,74 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 11-15-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-modal="true"
+    aria-label="Meaningful description of the modal content"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container">
+      <button
+        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+      >
+        <svg
+          class="slds-button__icon slds-button__icon_large"
+          aria-hidden="true"
+        >
+          <use
+            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+          ></use>
+        </svg>
+        <span class="slds-assistive-text"> {labels.COM_BTN_CANCEL} </span>
+      </button>
+      <div
+        class="slds-modal__content slds-p-around_medium slds-modal__content_headless"
+        id="modal-content-id-1"
+      >
+        <template if:true={loader}>
+          <c-spinner></c-spinner>
+        </template>
+        <template if:false={loader}>
+          <template if:true={isErrorText}>
+            <h1
+              class="slds-text-color_destructive slds-text-align_center slds-text-heading_medium"
+            >
+              {errorText}
+            </h1>
+          </template>
+          <template if:false={isErrorText}>
+            <lightning-input-rich-text
+              value={text}
+              formats={formats}
+              onchange={handleRichTextChange}
+            ></lightning-input-rich-text>
+          </template>
+        </template>
+      </div>
+      <div class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          aria-label="Cancel and close"
+          onclick={onCancel}
+        >
+          {getSaveOkText}
+        </button>
+        <button
+          if:false={isErrorText}
+          class="slds-button slds-button_brand"
+          onclick={onSave}
+        >
+          {labels.COM_BTN_SAVE}
+        </button>
+      </div>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

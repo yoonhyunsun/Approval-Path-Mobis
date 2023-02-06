@@ -1,0 +1,66 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 01-27-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<!-- sldsValidatorIgnore -->
+<template>
+  <div
+    if:true={showmodal}
+    class="slds-text-align_right slds-var-m-bottom_xx-small"
+  >
+    <lightning-button
+      variant="base"
+      onclick={openInNewModal}
+      label={labels.OPEN_MODAL}
+    ></lightning-button>
+  </div>
+  <div
+    if:true={showmodalvf}
+    class="slds-text-align_right slds-var-m-bottom_xx-small"
+  >
+    <lightning-button
+      variant="base"
+      onclick={openInNewModalVF}
+      label={labels.OPEN_MODAL}
+    ></lightning-button>
+  </div>
+  <c-pdf-viewer-modal-v-f
+    if:true={openModal}
+    modal-class="slds-modal slds-fade-in-open slds-modal_large"
+  >
+    <span slot="headercontent">
+      <lightning-button-icon
+        class="slds-modal__close"
+        title="Close"
+        icon-name="utility:close"
+        icon-class="slds-button_icon-inverse"
+        onclick={handleCloseModal}
+      >
+      </lightning-button-icon>
+      <div class="slds-m-bottom_medium">View PDF File</div>
+    </span>
+    <span slot="bodycontent" class="modalContent">
+      <iframe scrolling="yes" class="pdfViewerModal" src={vfpdfUrl}></iframe>
+    </span>
+    <span slot="footercontent">
+      <button
+        class="slds-button slds-button_neutral"
+        onclick={handleCloseModal}
+        title="Cancel"
+      >
+        {labels.COM_BTN_OK}
+      </button>
+    </span>
+  </c-pdf-viewer-modal-v-f>
+  <div class="slds-align_absolute-center">
+    <iframe
+      scrolling="no"
+      src={urlWithoutToolbar}
+      width="100%"
+      height="600"
+    ></iframe>
+  </div>
+</template>

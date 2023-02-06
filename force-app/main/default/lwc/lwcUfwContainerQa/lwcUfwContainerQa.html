@@ -1,0 +1,41 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwContainerQa
+  * Description  : 
+  * Copyright    : Copyright © I2max. All Rights Reserved. 2022   
+  * Author       : Kyejin Cheong
+  * Created Date : 2022-11-08
+-->
+
+<!-- Lwc Ufw Container Qa -->
+<template>
+    <template if:true={showModal}>
+        <section role="dialog"
+                 tabindex="-1"
+                 aria-labelledby="modal-heading-01"
+                 aria-modal="true"
+                 aria-describedby="modal-content-id-1"
+                 class={clazz}>
+
+            <div class="slds-modal__container" style={getModalContainerStyle}>
+                <!-- Header -->
+                <slot name="header"></slot>
+                <!-- Content -->
+                <div class="contentSection" style={getContentStyle}>
+                    <slot name="content"></slot>
+                </div>
+                <!-- Footer -->
+                <template if:false={isFootless}>
+                    <slot name="footer"></slot>
+                </template>
+                <!-- QuickAction -->
+                <!-- ================================================================
+                 ==== QuickAction은 메인(기본) 페이지에 모두 세팅처리함.
+                 ==== 따라서 QuickAction 에서는 불필요
+                 ================================================================= -->
+                <!--<slot name="quickAction"></slot>-->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

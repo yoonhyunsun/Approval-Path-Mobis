@@ -1,0 +1,116 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 02-01-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div class="slds-var-m-bottom_medium">
+    <div class="slds-grid slds-gutters">
+      <div class="slds-size_1-of-2 slds-p-left_small">
+        <lightning-input
+          value={name}
+          onchange={onNameChange}
+          type="text"
+          label={labels.AP_NAME}
+          onkeypress={handleEnter}
+        >
+          ></lightning-input
+        >
+        <lightning-input
+          value={department}
+          onchange={onDepartmentChange}
+          type="text"
+          label={labels.AP_DEPARTMENT}
+          onkeypress={handleEnter}
+        >
+          ></lightning-input
+        >
+
+        <div class="slds-m-bottom_x-small slds-m-top_x-small">
+          <button
+            class="slds-button slds-button_brand"
+            style="display: grid; width: 100%"
+            onclick={handleSearch}
+          >
+            {labels.COM_BTN_SEARCH}
+          </button>
+        </div>
+
+        <div class="slds-m-bottom_xx-large">
+          <template if:false={loading}>
+            <c-contact-table
+              selected-contacts={selectedContacts}
+              contacts={contacts}
+              onuserclick={onContactTableClick}
+            ></c-contact-table>
+          </template>
+          <template if:true={loading}>
+            <c-spinner></c-spinner>
+          </template>
+        </div>
+      </div>
+
+      <div class="slds-col slds-size_1-of-2">
+        <div>
+          <lightning-input-rich-text
+            label="Comment"
+            label-visible="true"
+            value={comment}
+            formats={formats}
+            onchange={handleRichTextChange}
+          ></lightning-input-rich-text>
+        </div>
+        <template if:true={favoriteGroupOptions.length}>
+          <div>
+            <lightning-combobox
+              label={labels.AP_SELECT_FROM_FAVORITE}
+              value=""
+              placeholder={labels.AP_SELECT_FROM_FAVORITE}
+              options={favoriteGroupOptions}
+              onchange={onFavoriteGroupSelect}
+              dropdown-alignment="auto"
+            ></lightning-combobox>
+          </div>
+        </template>
+        <c-selected-contacts-table
+          type={type}
+          createdsubmitter={submitter}
+          onuserdelete={onSelectedContactDelete}
+          selected-contacts={selectedContacts}
+          onapprovaltypeselect={approvalTypeSelect}
+          ondeleteselected={onSelectedContactsDelete}
+          onswap={onSwap}
+          ondragstart={onDragStart}
+          selected-contact-id={selectedContactId}
+        ></c-selected-contacts-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- hidden submit logic for quick action  -->
+  <div>
+    <lightning-button
+      class="slds-hidden saveFavorite"
+      onclick={onSaveFavorite}
+      variant="brand"
+      label={labels.AP_SAVE_AS_FAVORITE}
+    ></lightning-button>
+
+    <lightning-button
+      class="slds-hidden saveSubmit"
+      onclick={onSave}
+      variant="brand"
+      label={labels.COM_BTN_SAVE}
+    ></lightning-button>
+
+    <lightning-button
+      class="slds-hidden submitForApproval"
+      onclick={submitForApproval}
+      variant="brand"
+      label={labels.COM_BTN_SAVE}
+    ></lightning-button>
+  </div>
+</template>

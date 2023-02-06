@@ -1,0 +1,52 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwTableFrame
+  * Description  :
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-12
+-->
+<template>
+    <lightning-layout multiple-rows="true" horizontal-align="center" class="background">
+        <lightning-layout-item padding="around-small" size="12">
+            <div class="slds-scrollable_y" style={height} onscroll={doScrollY}>
+                <div class="slds-scrollable_x" onscroll={doScrollX}>
+                    <slot></slot>
+                </div>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" flexibility="auto">
+            <span class="slds-p-horizontal_small">
+            <lightning-button label="Prev" icon-name="utility:chevronleft" icon-position="left"
+                              disabled={isFirstPage} onclick={handlePrevious}></lightning-button>
+            </span>
+            <!-- Simple -->
+            <template if:true={isSimple}>
+                <span class="slds-p-horizontal_small">
+<!--                    Page Number : {pageNumber} | Records : {fromOffSize} to {toOffSize} (Total {totalSize})-->
+                    <lightning-button type=button label={getPageInfo} ></lightning-button>
+                </span>
+            </template>
+            <!-- Number -->
+            <template if:true={isNumber}>
+                <template for:each={getPageView} for:item='page'>
+                    <lightning-button type=button
+                                      data-id="pageBtn"
+                                      value={page.number}
+                                      key={page.number}
+                                      label={page.number}
+                                      variant={page.variant}
+                                      onclick={handleMove}
+                                      class="slds-p-horizontal_xxx-small">
+                    </lightning-button>
+
+                </template>
+            </template>
+            <span class="slds-p-horizontal_small">
+            <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
+                              disabled={isLastPage} onclick={handleNext}></lightning-button>
+            </span>
+        </lightning-layout-item>
+
+    </lightning-layout>
+</template>

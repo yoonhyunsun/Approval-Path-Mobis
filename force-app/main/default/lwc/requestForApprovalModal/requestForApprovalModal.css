@@ -1,0 +1,13 @@
+.slds-modal__container {
+  max-width: 80rem !important;
+  width: 80% !important;
+}
+
+.error_container {
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 25px;
+}

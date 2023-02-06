@@ -1,0 +1,26 @@
+/****************************************************************************************
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwContainerQa
+  * Description  : 
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-25
+****************************************************************************************/
+
+.modal-hidden {
+    display: none;
+}
+
+/*:host .slds-modal__container {*/
+/*    width: 90%;*/
+/*}*/
+
+:host .slds-backdrop_open {
+    opacity: 0.5;
+}
+
+.contentSection {
+    max-height  : 65vh !important;
+    height      : unset !important;
+    overflow-y  : auto;
+}

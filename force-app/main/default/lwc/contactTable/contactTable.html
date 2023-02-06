@@ -1,0 +1,77 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 01-05-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div style="display: block; overflow-x: auto; white-space: nowrap">
+    <table
+      class="slds-table slds-table_cell-buffer slds-table_bordered"
+      aria-labelledby="element-with-table-label other-element-with-table-label"
+    >
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Number">№</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Name">{labels.AP_NAME}</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Position">
+              {labels.AP_POSITION}
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Department">
+              {labels.AP_DEPARTMENT}
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Confidence">Add</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <template if:true={allContacts}>
+          <template for:each={allContacts} for:item="el">
+            <tr key={el.id} class="slds-hint-parent">
+              <th data-label="Order" scope="row">
+                <div class="slds-truncate" title="Number">{el.Order}</div>
+              </th>
+              <th data-label="Name" scope="row">
+                <div class="slds-truncate" title="Name">{el.Name}</div>
+              </th>
+              <th data-label="Position" scope="row">
+                <div class="slds-truncate" title="Position">
+                  {el.PositionName__c}
+                </div>
+              </th>
+              <th data-label="Department" scope="row">
+                <div class="slds-truncate" title="Department">
+                  {el.EmpDepartment__r.Name}
+                </div>
+              </th>
+              <th data-label="Add" scope="row">
+                <div
+                  class="slds-truncate"
+                  title="Add"
+                  data-id={el.Id}
+                  onclick={onUserClick}
+                  style="cursor: pointer"
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="utility:adduser"
+                  ></lightning-icon>
+                </div>
+              </th>
+            </tr>
+          </template>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</template>

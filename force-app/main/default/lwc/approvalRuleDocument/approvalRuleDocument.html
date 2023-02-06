@@ -1,0 +1,23 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 01-19-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div class="slds-col">
+    <p
+      if:true={show}
+      style="line-height: 45px; background-color: lightgrey"
+      class="slds-var-m-left_small slds-var-m-bottom_small slds-var-p-horizontal_x-small"
+    >
+      <lightning-formatted-url
+        value={ruleDocument}
+        tooltip="Rule Document"
+        label={labels.AP_RULE_DOCUMENT}
+        target="_blank"
+      ></lightning-formatted-url>
+    </p>
+  </div>
+</template>

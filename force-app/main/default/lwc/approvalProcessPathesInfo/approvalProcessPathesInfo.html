@@ -1,0 +1,89 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 09-29-2022
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <lightning-card>
+    <div class="slds-grid slds-grid_align-spread">
+      <div class="slds-col">
+        <lightning-tile label="Approval" type="media">
+          <lightning-icon
+            slot="media"
+            icon-name="standard:approval"
+          ></lightning-icon>
+
+          <p class="slds-m-bottom_xx-small">{tableLength} Approval processes</p>
+        </lightning-tile>
+      </div>
+      <div class="slds-col">
+        <lightning-button-icon
+          style="cursor: pointer"
+          icon-name="utility:refresh"
+          alternative-text="refresh"
+          onclick={onRefresh}
+        ></lightning-button-icon>
+      </div>
+    </div>
+    <div>
+      <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered"
+        aria-label="Example default base table of Opportunities"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Number">№</div>
+            </th>
+            <template for:each={columns} for:item="el">
+              <th class="" scope="col" key={el.id}>
+                <div class="slds-truncate" title="Report">{el.label}</div>
+              </th>
+            </template>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={tableData}>
+            <template for:each={tableData} for:item="el">
+              <tr key={el.id}>
+                <td data-label="Order" scope="row">
+                  <div title="Order">
+                    <span tabindex="-1">{el.Order}</span>
+                  </div>
+                </td>
+                <td data-label="Report" scope="row">
+                  <div title="Report">
+                    <a tabindex="-1" data-id={el.Id} onclick={onReportClick}
+                      >{el.Report}</a
+                    >
+                  </div>
+                </td>
+                <td data-label="ApprovalStatus__c" scope="row">
+                  <div title="ApprovalStatus">
+                    <span>{el.ApprovalStatus__c}</span>
+                  </div>
+                </td>
+
+                <th data-label="LastModifiedDate" scope="row">
+                  <div title="LastModifiedDate">
+                    <span><lightning-formatted-date-time value={el.LastModifiedDate} year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" second="2-digit" hour12={ampm}></lightning-formatted-date-time></span>
+                  </div>
+                </th>
+                
+                <th data-label="CreatedDate" scope="row">
+                  <div title="CreatedDate">
+                    <span tabindex="-1"><lightning-formatted-date-time value={el.CreatedDate} year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" second="2-digit" hour12={ampm}></lightning-formatted-date-time></span>
+                  </div>
+                </th>
+
+              </tr>
+            </template>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </lightning-card>
+</template>

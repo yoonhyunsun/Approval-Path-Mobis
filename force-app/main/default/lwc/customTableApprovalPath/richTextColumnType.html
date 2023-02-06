@@ -1,0 +1,11 @@
+<template>
+  <!-- a template for cell -->
+  <template if:true={wrapText}>
+      <lightning-formatted-rich-text value={value} class="slds-hyphenate">
+      </lightning-formatted-rich-text>
+  </template>
+  <template if:false={wrapText}>
+      <lightning-formatted-rich-text value={value} class="slds-truncate">
+      </lightning-formatted-rich-text>
+  </template>
+</template>

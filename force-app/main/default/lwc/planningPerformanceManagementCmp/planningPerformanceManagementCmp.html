@@ -1,0 +1,40 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : planningPerformanceManagementCmp
+  * Description  :
+  * Copyright    : Copyright © I2max. All Rights Reserved. 2022
+  * Author       : Kyejin Cheong
+  * Created Date : 2022-11-21
+-->
+
+<!-- Planning Performance Management Cmp -->
+<template>
+    <c-lwc-ufw-container is-spinner={gComIsSpinner}>
+        <div slot="header">
+            <c-lwc-ufw-header data-id="header" type="PlanningPerformance" title="Planning & Performance Management"
+                icon-name="standard:product_item">
+                <div slot="buttons">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-ms-top_xx-small">
+                            <!-- CSV File Upload -->
+                            <lightning-input type="file" label="" variant=label-hidden accept=".csv"
+                                class="slds-m-right_xx-small" onchange={handleCSVUpload}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-ms-top_xx-small">
+                            <!--<lightning-button variant="brand" label="CSVTemplate" icon-name="utility:download"
+                                icon-position="right" class="slds-m-right_xx-small" onclick={handleCSVDownload}>
+                            </lightning-button>-->
+                            <lightning-button variant="brand" label="CSVTemplate" icon-name="utility:download"
+                                icon-position="right" class="slds-m-right_xx-small" onclick={downloadCSVTemplate}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </c-lwc-ufw-header>
+        </div>
+
+    </c-lwc-ufw-container>
+    <!-- LWC -->
+    <!-- Planning & Performance CSV Util Cmp -->
+    <c-planning-c-s-v-util-cmp onparentsearch={handleSearch}></c-planning-c-s-v-util-cmp>
+</template>

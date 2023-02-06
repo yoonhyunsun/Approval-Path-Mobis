@@ -1,0 +1,67 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : proformaManagementCmp
+  * Description  : 
+  * Copyright    : Copyright © I2max. All Rights Reserved. 2022   
+  * Author       : Kyejin Cheong
+  * Created Date : 2022-11-15
+-->
+
+<!-- Proforma Management Cmp -->
+<template>
+    <c-lwc-ufw-container is-spinner={gComIsSpinner}>
+        <div slot="header">
+            <c-lwc-ufw-header data-id="header" type="Proforma" title="Proforma Management" icon-name="standard:product_item">
+                <div slot="buttons">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-m-top_xx-small">
+                            <!-- CSV File Upload -->
+                            <lightning-input
+                                    type="file"
+                                    label=""
+                                    variant=label-hidden
+                                    accept=".csv"
+                                    class="slds-m-right_xx-small"
+                                    onchange={handleCSVUpload}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-m-top_xx-small">
+                            <!-- Template Download -->
+                            <lightning-button label={COM_BTN_TEMPLATE_DOWNLOAD}  onclick={doCsvTemplate} class="slds-m-right_xx-small" icon-name="utility:download"></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </c-lwc-ufw-header>
+        </div>
+        <div slot="content">
+            <!-- BODY -->
+            <c-lwc-ufw-body has-search-section=false>
+                <lightning-card title="All downloaded csv files are enable to be checked here. The files are sorted by recent created date.">
+                    <table>
+                        <template for:each={filesList} for:item="file">
+                            <tr key={file.value} class="slds-box slds-grid slds-wrap slds-m-bottom_small">
+                                <td style="font-weight: bold; width: 5%;" class="slds-m-horizontal_small">
+                                    File Name
+                                </td>
+                                <td style="width:20%;" class="slds-m-horizontal_small">
+                                    {file.label}
+                                </td>
+                                <td style="font-weight: bold; width: 20%;" class="slds-m-horizontal_small">
+                                    Change Description
+                                </td>
+                                <td style="width:20%;" class="slds-m-horizontal_small">
+                                    {file.description}
+                                </td>
+                                <td style="width:20%;" class="slds-m-horizontal_small">
+                                    <a href={file.url}>Download</a>
+                                </td>
+                            </tr>
+                        </template>
+                    </table>
+                </lightning-card>
+            </c-lwc-ufw-body>
+        </div>
+    </c-lwc-ufw-container>
+    <!-- LWC -->
+    <!-- proformaCSVUtilCmp -->
+    <c-proforma-c-s-v-util-cmp onparentsearch={handleSearch}></c-proforma-c-s-v-util-cmp>
+</template>

@@ -1,0 +1,33 @@
+<!--
+  * Project Name : Hyundai Mobis
+  * File Name    : lwcUfwBodyQa
+  * Description  : 
+  * Copyright    : Copyright © 2022 I2max. All Rights Reserved.
+  * Author       : I2MAX
+  * Created Date : 2022-05-25
+-->
+
+<!-- Lwc Ufw Body Qa -->
+<template>
+    <!-- ===========================================================
+    ==== content
+    ============================================================ -->
+    <div class="slds-is-relative">
+        <!-- ===========================================================
+        ==== modal spinner
+        ============================================================ -->
+        <template if:true={isSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+        <!-- ===========================================================
+        ==== body
+        ============================================================ -->
+        <div class="slds-modal__content slds-p-around_medium">
+            <slot></slot>
+            <!-- picklist 값 또는 날짜 값을 선택하는 창을 위해 영역을 더 준다. -->
+            <template if:true={extraDivHeight}>
+                <div style={extraDivStyle}></div>
+            </template>
+        </div>
+    </div>
+</template>

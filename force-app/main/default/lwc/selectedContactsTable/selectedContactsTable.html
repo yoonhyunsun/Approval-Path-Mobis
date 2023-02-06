@@ -1,0 +1,116 @@
+<!--
+  @description       : 
+  @author            : https://github.com/Eldor901
+  @group             : 
+  @last modified on  : 01-30-2023
+  @last modified by  : https://github.com/Eldor901
+-->
+<template>
+  <div>
+    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+      <div class="slds-col">
+        <p class="slds-text-heading_medium">{labels.AP_SELECTED_EMPLOYEE}</p>
+      </div>
+
+      <div class="slds-col">
+        <span onclick={onDeleteSelectedElements} style="cursor: pointer">
+          <lightning-icon
+            icon-name="utility:delete"
+            size="small"
+          ></lightning-icon>
+        </span>
+      </div>
+    </div>
+    <div class="table_wrapper">
+      <table
+        class="slds-table slds-table_cell-buffer slds-table_bordered"
+        aria-labelledby="element-with-table-label other-element-with-table-label"
+      >
+        <thead>
+          <tr class="slds-line-height_reset header_row">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Number">№</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Name">{labels.AP_NAME}</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Position">
+                {labels.AP_POSITION}
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Department">
+                {labels.AP_DEPARTMENT}
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Approval Type">
+                {labels.AP_APPROVAL_TYPE}
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Approval Type">Remove</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={submitter}>
+            <tr class="disabledRow">
+              <th data-label="Order" scope="row">
+                <div class="slds-truncate" title="Number">---</div>
+              </th>
+              <th data-label="Name" scope="row">
+                <div class="slds-truncate" title="Name">{submitter.Name}</div>
+              </th>
+              <th data-label="Position" scope="row">
+                <div class="slds-truncate" title="Position">
+                  {submitter.PositionName__c}
+                </div>
+              </th>
+              <th data-label="Department" scope="row">
+                <div class="slds-truncate" title="Department">
+                  {submitter.EmpDepartment__r.Name}
+                </div>
+              </th>
+              <th data-label="Approval Type" scope="row">
+                <div title="Approval Type">Draft</div>
+              </th>
+              <th data-label="Delete" scope="row">
+                <div
+                  class="slds-truncate"
+                  title="Delete"
+                  style="cursor: pointer"
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="utility:delete"
+                  ></lightning-icon>
+                </div>
+              </th>
+            </tr>
+          </template>
+
+          <template if:true={allSelectedContacts}>
+            <template for:each={allSelectedContacts} for:item="el">
+              <c-selected-contacts-table-row
+                class="contents"
+                selected-contact-id={selectedContactId}
+                key={el.Id}
+                row={el}
+                onuserdelete={onUserDelete}
+                selected-contacts={selectedContacts}
+                onapprovaltypeselect={handleApprovalTypeChange}
+                onswap={onSwap}
+                ondragstart={onDragStart}
+                ondragover={onDragOver}
+                data-id={el.Id}
+              >
+              </c-selected-contacts-table-row>
+            </template>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
