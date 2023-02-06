@@ -91,6 +91,44 @@
             </tr>
           </template>
 
+          <template if:true={defaultReferencer}>
+            <template for:each={defaultReferencer} for:item="el">
+            <tr key={el.Id} class="disabledRow">
+              <th data-label="Order" scope="row">
+                <div class="slds-truncate" title="Number">---</div>
+              </th>
+              <th data-label="Name" scope="row">
+                <div class="slds-truncate" title="Name">{el.Name}</div>
+              </th>
+              <th data-label="Position" scope="row">
+                <div class="slds-truncate" title="Position">
+                  {el.PositionName__c}
+                </div>
+              </th>
+              <th data-label="Department" scope="row">
+                <div class="slds-truncate" title="Department">
+                  {el.EmpDepartment__r.Name}
+                </div>
+              </th>
+              <th data-label="Approval Type" scope="row">
+                <div title="Approval Type">Reference</div>
+              </th>
+              <th data-label="Delete" scope="row">
+                <div
+                  class="slds-truncate"
+                  title="Delete"
+                  style="cursor: pointer"
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="utility:delete"
+                  ></lightning-icon>
+                </div>
+              </th>
+            </tr>
+            </template>
+          </template>
+
           <template if:true={allSelectedContacts}>
             <template for:each={allSelectedContacts} for:item="el">
               <c-selected-contacts-table-row

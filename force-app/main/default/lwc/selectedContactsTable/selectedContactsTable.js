@@ -8,6 +8,7 @@
 import { LightningElement, api, track } from "lwc";
 import { enumerate, proxyToObj, translations } from "c/utils";
 import getSubmitter from "@salesforce/apex/ContactController.getSubmitter";
+import getDefaultReferencer from "@salesforce/apex/ContactController.getDefaultReferencer";
 
 export default class SelectedContactsTable extends LightningElement {
   @api selectedContacts;
@@ -23,9 +24,11 @@ export default class SelectedContactsTable extends LightningElement {
   labels = translations;
 
   @track submitterInfo;
+  @track defaultReferencerInfo;
 
   async connectedCallback() {
     this.submitterInfo = await getSubmitter();
+    this.defaultReferencerInfo = await getDefaultReferencer();
   }
 
   get submitter() {
@@ -34,6 +37,14 @@ export default class SelectedContactsTable extends LightningElement {
     }
 
     return this.submitterInfo;
+  }
+
+  get defaultReferencer() {
+    if (this.type === "edit") {
+      return this.createdsubmitter.Employee__r;
+    }
+
+    return this.defaultReferencerInfo;
   }
 
 

@@ -73,4 +73,29 @@ public without sharing class ContactService {
     return approvalProcessOwnerUser[0];
   }
 
+  public static List<Contact> getDefaultReferencer() {
+    List<Contact> defaultReferenceUser = [
+      SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, Email, EmployeeNumber__c
+      FROM Contact
+      WHERE EmployeeNumber__c = : '1607371'
+      LIMIT 1
+    ];
+
+    defaultReferenceUser.add([
+      SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, Email, EmployeeNumber__c
+      FROM Contact
+      WHERE EmployeeNumber__c = : '1605674'
+      LIMIT 1
+    ]);
+
+
+    if (defaultReferenceUser.isEmpty()) {
+      throw new IllegalArgumentException(
+        System.Label.ERR_CONTACT_USER_NOT_FOUND
+      );
+    }
+
+    return defaultReferenceUser;
+  }
+
 }

@@ -27,4 +27,11 @@ public class ContactController {
   public static Contact getSubmitter() {
     return ContactService.getSubmitter();
   }
+
+  @AuraEnabled
+  public static List<Contact> getDefaultReferencer() {
+    return ContactService.getDefaultReferencer();
+  }
+
+
 }

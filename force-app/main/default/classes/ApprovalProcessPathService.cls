@@ -100,7 +100,44 @@ public without sharing class ApprovalProcessPathService {
     approvalProcessPathCreator.ApprovalUser__c = UserInfo.getUserId();
     approvalProcessPathCreator.ApprovalDateTime__c = Datetime.now();
     approvalProcessPathCreator.Comment__c = Comment;
+    
+    System.debug('오너 : ' + approvalProcessPathCreator);
     return approvalProcessPathCreator;
+  }
+
+  private static List<ApprovalProcessPath__c> getDefaultRefUser(
+    String approvalProcessId,
+    String Comment
+  ) {
+    // for ApprovalProcessPath.Employee__c
+    List<Contact> approvalProcessDefaultUser = new List<Contact>();
+    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '1607371']);
+    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '1605674']);
+
+    if (approvalProcessDefaultUser.isEmpty()) {
+      throw new IllegalArgumentException(
+        System.Label.ERR_CONTACT_USER_NOT_FOUND
+      );
+    }
+
+    List<ApprovalProcessPath__c> approvalProcessPathCreatorList = new List<ApprovalProcessPath__c>();
+
+    for(Integer i=1 ; i < approvalProcessDefaultUser.size()+1; i++){
+    ApprovalProcessPath__c approvalProcessPathCreator = new ApprovalProcessPath__c();
+
+    approvalProcessPathCreator.ApprovalType__c = 'Reference';
+    approvalProcessPathCreator.ApprovalProcess__c = approvalProcessId;
+    approvalProcessPathCreator.ApprovalProcessPathUID__c = GenerateUID.generate();
+    approvalProcessPathCreator.Order__c = i * 0.1;
+    approvalProcessPathCreator.Employee__c = approvalProcessDefaultUser[i-1].Id;
+    approvalProcessPathCreator.RequestDateTime__c = Datetime.now();
+    approvalProcessPathCreator.ApprovalUser__c = approvalProcessDefaultUser[i-1].UserId__c;
+
+    approvalProcessPathCreatorList.add(approvalProcessPathCreator);
+  }
+
+    System.debug('참고 유저 : ' + approvalProcessPathCreatorList);
+    return approvalProcessPathCreatorList;
   }
 
   public static Boolean createApprovalProcessPathes(
@@ -116,6 +153,9 @@ public without sharing class ApprovalProcessPathService {
 
     newApprovalProcessPathes.add(
       getOwnerApprovalPathUser(approvalProcess.Id, Comment)
+    );
+    newApprovalProcessPathes.addAll(
+      getDefaultRefUser(approvalProcess.Id, Comment)
     );
 
     for (
