@@ -18,6 +18,32 @@ public without sharing class OpportunityController {
   }
 
   @AuraEnabled
+  public static Boolean getGeneralApprovalUser(String opportunityId) {
+    List<ApprovalProcessPath__c> generalApproverPath = [
+      SELECT Id, ApprovalUser__c 
+      FROM ApprovalProcessPath__c 
+      WHERE Opportunity__c = :opportunityId AND ApprovalType__c = 'General Approval'
+      ];
+
+    List<Id> ids = new List<Id>();  
+    for(ApprovalProcessPath__c path : generalApproverPath) {
+      ids.add(path.ApprovalUser__c);
+    }
+
+      Id tempUserId = [
+        SELECT Id
+        FROM User
+        WHERE Id = :UserInfo.getUserId()
+      ].Id;
+
+      if(ids.contains(tempUserId)) {
+        return true;
+      }else{
+        return false;
+      }
+  }
+
+  @AuraEnabled
   public static Boolean opportunityHasInProgressApprovalProcess(
     String opportunityId
   ) {

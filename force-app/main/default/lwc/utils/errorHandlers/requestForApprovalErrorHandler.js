@@ -30,11 +30,12 @@ export const requestForApprovalErrorHandler = async (component) => {
     opportunityId: component.recordId
   });
 
-  const userProfile = await getUserProfile({
+  const profileName = await getUserProfile({
     opportunityId: component.recordId
   });
 
-  if (!rfqSectionFilled && userProfile != 'System Administrator') {
+  console.profile('유저 프로필 : ' + profileName);
+  if (!rfqSectionFilled && (profileName != 'System Administrator' && profileName != 'System Admin')) {
     component.dispatchEvent(
       errorToast(translations.ERR_RFQ_SECTION_NOT_FILLED)
     );

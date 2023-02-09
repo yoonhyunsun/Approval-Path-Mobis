@@ -7,6 +7,8 @@
  **/
 import getOpportunityRecordAccess from "@salesforce/apex/OpportunityController.getOpportunityRecordAccess";
 import opportunityRfqSectionFilled from "@salesforce/apex/OpportunityController.opportunityRfqSectionFilled";
+import getGeneralApprovalUser from "@salesforce/apex/OpportunityController.getGeneralApprovalUser";
+import getUserProfile from "@salesforce/apex/OpportunityController.getUserProfile";
 import ChangeApproverModal from "c/changeApproverModal";
 import { errorToast, translations } from "c/utils";
 import { api, LightningElement } from "lwc";
@@ -19,7 +21,13 @@ export default class ChangeApproverHeadlessAction extends LightningElement {
       opportunityId: this.recordId
     });
 
-    if (!access.HasEditAccess) {
+    const generalApprovalType = await getGeneralApprovalUser({
+      opportunityId: this.recordId
+    });
+    
+    console.log('generalApprovalType : '+ generalApprovalType);
+
+    if (!access.HasEditAccess && generalApprovalType == false) {
       this.dispatchEvent(errorToast(translations.ERR_PERMITION_EDIT));
 
       return;
@@ -29,7 +37,12 @@ export default class ChangeApproverHeadlessAction extends LightningElement {
       opportunityId: this.recordId
     });
 
-    if (!rfqSectionFilled) {
+    const profileName = await getUserProfile({
+      opportunityId: this.recordId
+    });
+
+    console.profile('유저 프로필 : ' + profileName);
+    if (!rfqSectionFilled && (profileName != 'System Administrator' && profileName != 'System Admin')) {
       this.dispatchEvent(errorToast(translations.ERR_RFQ_SECTION_NOT_FILLED));
 
       return;
