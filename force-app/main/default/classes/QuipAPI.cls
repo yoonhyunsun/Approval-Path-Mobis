@@ -2,13 +2,18 @@
  * @description       :
  * @author            : Bekhzod Ubaydullaev
  * @group             :
- * @last modified on  : 01-05-2023
+ * @last modified on  : 02-07-2023
  * @last modified by  : Bekhzod Ubaydullaev
  **/
 public without sharing class QuipAPI {
   @SuppressWarnings('PMD.ApexCRUDViolation')
   @future(callout=true)
   public static void lockThread(String quipUrl, Boolean lock) {
+    lockThreadSynchronous(quipUrl, lock);
+  }
+
+  @SuppressWarnings('PMD.ApexCRUDViolation')
+  public static void lockThreadSynchronous(String quipUrl, Boolean lock) {
     String threadId = idFromUrl(quipUrl);
     Http http = new Http();
     HttpRequest request = new HttpRequest();

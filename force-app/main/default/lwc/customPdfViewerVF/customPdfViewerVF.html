@@ -1,25 +1,28 @@
+<!--
+  @description       : 
+  @author            : Chaewon Kwak
+  @group             : i2max R&D
+  @last modified on  : 02-06-2023
+  @last modified by  : Chaewon Kwak
+-->
 <template>
-  <div
-    class="slds-text-align_right slds-var-m-bottom_xx-small"
-  >
-    <lightning-button
-      variant="base"
-      onclick={expandedViewToogle}
-      label={labels.OPEN_MODAL}
-    ></lightning-button>
-  </div>
+    <div class="slds-text-align_right slds-var-m-bottom_xx-small">
+        <lightning-button variant="base" onclick={expandedViewToogle} label={labels.OPEN_MODAL}></lightning-button>
+    </div>
 
-  <div class="slds-align_absolute-center">
-    <iframe data-id="pdfViewerIframe" scrolling="no" src={docUrl} width="100%" height="600"></iframe>
-  </div>
+    <div class="slds-align_absolute-center">
+        <iframe data-id="pdfViewerIframe" scrolling="no" src={docUrl} width="100%" height="600"></iframe>
+    </div>
 
-  <div if:true={fullscreenView}>
-    <iframe data-id="pdfViewerIframeFullscreen" class="pdfViewerFullscreen" scrolling="no" src={docUrl}>
-      Your browser doesn't support iframes
-    </iframe>
-    <lightning-button-icon class="fullscreenCloseBtn slds-m-left_large" onclick={expandedViewToogle} icon-name="utility:close" variant="border-filled" alternative-text="Close" title="Close"></lightning-button-icon>
+    <div if:true={fullscreenView}>
+        <iframe data-id="pdfViewerIframeFullscreen" class="pdfViewerFullscreen" scrolling="no" src={expandedDocUrl}>
+            Your browser doesn't support iframes
+        </iframe>
+        <lightning-button-icon class="fullscreenCloseBtn slds-m-left_large" onclick={expandedViewToogle}
+            icon-name="utility:close" variant="border-filled" alternative-text="Close"
+            title="Close"></lightning-button-icon>
 
-  </div>
+    </div>
 
-  <input value={pdfUrl} hidden />
+    <input value={pdfUrl} hidden />
 </template>

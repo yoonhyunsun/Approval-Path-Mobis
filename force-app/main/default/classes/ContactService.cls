@@ -13,13 +13,16 @@ public without sharing class ContactService {
     String searchName = '%' + name + '%';
     String searchDepartment = '%' + department + '%';
 
+    List<String> profileNames = new List<String>{'HQ Sales User', 'Global Sales User', 'System Admin (i2max)', 'System Administrator'};
+
     return [
-      SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, Email
+      SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, UserId__r.Profile.Name, Email
       FROM Contact
       WHERE
         (Name LIKE :searchName
         OR FullNameWithoutBlank__c LIKE :searchName)
         AND EmpDepartment__r.Name LIKE :searchDepartment
+        AND ((UserId__r.Profile.Name IN :profileNames) OR (UserId__c = null))
       LIMIT 50
     ];
   }
@@ -77,14 +80,14 @@ public without sharing class ContactService {
     List<Contact> defaultReferenceUser = [
       SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, Email, EmployeeNumber__c
       FROM Contact
-      WHERE EmployeeNumber__c = : '1607371'
+      WHERE EmployeeNumber__c = : '9999999999'
       LIMIT 1
     ];
 
     defaultReferenceUser.add([
       SELECT Id, Name, EmpDepartment__r.Name, PositionName__c, UserId__c, Email, EmployeeNumber__c
       FROM Contact
-      WHERE EmployeeNumber__c = : '1605674'
+      WHERE EmployeeNumber__c = : '0000000000'
       LIMIT 1
     ]);
 

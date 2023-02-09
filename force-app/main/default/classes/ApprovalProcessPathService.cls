@@ -111,8 +111,8 @@ public without sharing class ApprovalProcessPathService {
   ) {
     // for ApprovalProcessPath.Employee__c
     List<Contact> approvalProcessDefaultUser = new List<Contact>();
-    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '1607371']);
-    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '1605674']);
+    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '9999999999']);
+    approvalProcessDefaultUser.add([SELECT Id, UserId__c FROM Contact WHERE EmployeeNumber__c = : '0000000000']);
 
     if (approvalProcessDefaultUser.isEmpty()) {
       throw new IllegalArgumentException(
@@ -154,9 +154,13 @@ public without sharing class ApprovalProcessPathService {
     newApprovalProcessPathes.add(
       getOwnerApprovalPathUser(approvalProcess.Id, Comment)
     );
+    
+    List<Opportunity> oppty = [SELECT Id, StageName FROM Opportunity WHERE Id =: OpportunityId];
+    if(oppty.size() != 0 && oppty[0].StageName != 'RFQ Received'){
     newApprovalProcessPathes.addAll(
       getDefaultRefUser(approvalProcess.Id, Comment)
     );
+    }
 
     for (
       ApprovalProcessPathDTO currentApprovalProcessPath : approvalProcessPathes

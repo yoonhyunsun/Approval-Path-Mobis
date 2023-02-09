@@ -2,7 +2,7 @@
  * @description       :
  * @author            : https://github.com/Eldor901
  * @group             :
- * @last modified on  : 12-07-2022
+ * @last modified on  : 02-06-2023
  * @last modified by  : Bekhzod Ubaydullaev
  **/
 import APPROVAL_STATUS from "@salesforce/schema/ApprovalProcessPath__c.ApprovalStatus__c";
@@ -24,25 +24,50 @@ export default class RejectApprovalProcessPathQuickAction extends LightningEleme
   errorText = null;
   loader = true;
 
+  pathData;
+
   @wire(getRecord, {
     recordId: "$recordId",
     fields: [APPROVAL_ID, APPROVAL_STATUS, APPROVAL_PROCESS_STATUS]
   })
-  approvalProcessPath;
+  approvalProcessPath(result) {
+    if (result.data) {
+      this.pathData = result;
+      if (!this.isApprover) {
+        this.errorText = translations.ERR_NOT_APPROVER;
+      }
+
+      if (
+        this.approvalStatus === "Rejected" ||
+        this.approvalStatus === "Approved"
+      ) {
+        this.errorText = translations.ERR_PROCESSED_APPROVAL;
+      }
+
+      if (this.approvalStatus === "Not Sent") {
+        this.errorText = translations.ERR_CANT_APPROVE_YET;
+      }
+
+      if (this.approvalProcessStatus === "Cancelled") {
+        this.errorText = translations.ERR_APPROVAL_CANCELLED;
+      }
+    } else if (result.error) {
+      this.errorText = "Error with loading the data. Please try again";
+    }
+
+    this.loader = false;
+  }
 
   get aprovalProcessPathApprovalId() {
-    return getFieldValue(this.approvalProcessPath.data, APPROVAL_ID);
+    return getFieldValue(this.pathData.data, APPROVAL_ID);
   }
 
   get approvalStatus() {
-    return getFieldValue(this.approvalProcessPath.data, APPROVAL_STATUS);
+    return getFieldValue(this.pathData.data, APPROVAL_STATUS);
   }
 
   get approvalProcessStatus() {
-    return getFieldValue(
-      this.approvalProcessPath.data,
-      APPROVAL_PROCESS_STATUS
-    );
+    return getFieldValue(this.pathData.data, APPROVAL_PROCESS_STATUS);
   }
 
   get isApprover() {
@@ -62,29 +87,7 @@ export default class RejectApprovalProcessPathQuickAction extends LightningEleme
   }
 
   connectedCallback() {
-    // eslint-disable-next-line @lwc/lwc/no-async-operation
-    setTimeout(() => {
-      if (!this.isApprover) {
-        this.errorText = translations.ERR_NOT_APPROVER;
-      }
-
-      if (
-        this.approvalStatus === "Rejected" ||
-        this.approvalStatus === "Approved"
-      ) {
-        this.errorText = translations.ERR_PROCESSED_APPROVAL;
-      }
-
-      if (this.approvalStatus === "Not Sent") {
-        this.errorText = translations.ERR_CANT_APPROVE_YET;
-      }
-
-      if (this.approvalProcessStatus === "Cancelled") {
-        this.errorText = translations.ERR_APPROVAL_CANCELLED;
-      }
-
-      this.loader = false;
-    }, 500);
+    this.loader = true;
   }
 
   async onSave() {

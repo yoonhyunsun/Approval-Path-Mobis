@@ -5,10 +5,11 @@
  * @last modified on  : 01-30-2023
  * @last modified by  : https://github.com/Eldor901
  **/
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track, wire } from "lwc";
 import { enumerate, proxyToObj, translations } from "c/utils";
 import getSubmitter from "@salesforce/apex/ContactController.getSubmitter";
 import getDefaultReferencer from "@salesforce/apex/ContactController.getDefaultReferencer";
+import checkifNotRFQ from "@salesforce/apex/ContactController.checkifNotRFQ";
 
 export default class SelectedContactsTable extends LightningElement {
   @api selectedContacts;
@@ -16,6 +17,9 @@ export default class SelectedContactsTable extends LightningElement {
   @api type;
 
   @api createdsubmitter;
+
+  @api recordId;
+
 
   selectedContactId;
 
@@ -25,10 +29,12 @@ export default class SelectedContactsTable extends LightningElement {
 
   @track submitterInfo;
   @track defaultReferencerInfo;
+  @track notRFQ;
 
   async connectedCallback() {
     this.submitterInfo = await getSubmitter();
     this.defaultReferencerInfo = await getDefaultReferencer();
+    this.notRFQ = await checkifNotRFQ({opportunityId: this.recordId});
   }
 
   get submitter() {
@@ -39,12 +45,16 @@ export default class SelectedContactsTable extends LightningElement {
     return this.submitterInfo;
   }
 
+
   get defaultReferencer() {
     if (this.type === "edit") {
       return this.createdsubmitter.Employee__r;
     }
 
-    return this.defaultReferencerInfo;
+    if(this.notRFQ === true){
+      console.log(this.defaultReferencerInfo);
+      return  this.defaultReferencerInfo;
+  }
   }
 
 

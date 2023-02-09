@@ -33,5 +33,12 @@ public class ContactController {
     return ContactService.getDefaultReferencer();
   }
 
+  @AuraEnabled
+  public static Boolean checkifNotRFQ(Id opportunityId) {
+    Opportunity oppty = [SELECT Id, StageName FROM Opportunity WHERE Id =: opportunityId];
+    System.debug('oppty stage : ' + oppty.StageName);
+    return oppty.StageName == 'RFQ Received' ? false : true;
+  }
+
 
 }

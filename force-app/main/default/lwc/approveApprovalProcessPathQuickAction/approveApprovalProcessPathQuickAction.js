@@ -2,7 +2,7 @@
  * @description       :
  * @author            : https://github.com/Eldor901
  * @group             :
- * @last modified on  : 12-07-2022
+ * @last modified on  : 02-06-2023
  * @last modified by  : Bekhzod Ubaydullaev
  **/
 import approverAction from "@salesforce/apex/ApprovalProcessPathController.approverAction";
@@ -23,47 +23,15 @@ export default class ApproveApprovalProcessPathQuickAction extends LightningElem
   errorText = null;
   loader = true;
 
+  pathData;
+
   @wire(getRecord, {
     recordId: "$recordId",
     fields: [APPROVAL_ID, APPROVAL_STATUS, APPROVAL_PROCESS_STATUS]
   })
-  approvalProcessPath;
-
-  get aprovalProcessPathApprovalId() {
-    return getFieldValue(this.approvalProcessPath.data, APPROVAL_ID);
-  }
-
-  get approvalProcessStatus() {
-    return getFieldValue(
-      this.approvalProcessPath.data,
-      APPROVAL_PROCESS_STATUS
-    );
-  }
-
-  get isApprover() {
-    return Id === this.aprovalProcessPathApprovalId;
-  }
-
-  get isErrorText() {
-    return this.errorText !== null;
-  }
-
-  get showEditor() {
-    return !this.isErrorText && !this.loader;
-  }
-
-  get approvalStatus() {
-    return getFieldValue(this.approvalProcessPath.data, APPROVAL_STATUS);
-  }
-
-  handleRichTextChange(e) {
-    this.comment = e.target.value;
-  }
-
-  connectedCallback() {
-    // eslint-disable-next-line @lwc/lwc/no-async-operation
-    setTimeout(() => {
-      this.loader = false;
+  approvalProcessPath(result) {
+    if (result.data) {
+      this.pathData = result;
       if (!this.isApprover) {
         this.errorText = translations.ERR_NOT_APPROVER;
       }
@@ -84,7 +52,42 @@ export default class ApproveApprovalProcessPathQuickAction extends LightningElem
       }
 
       updateRecord({ fields: { Id: this.recordId } });
-    }, 500);
+    } else if (result.error) {
+      this.errorText = "Error with loading the data. Please try again";
+    }
+    this.loader = false;
+  }
+
+  get aprovalProcessPathApprovalId() {
+    return getFieldValue(this.pathData.data, APPROVAL_ID);
+  }
+
+  get approvalProcessStatus() {
+    return getFieldValue(this.pathData.data, APPROVAL_PROCESS_STATUS);
+  }
+
+  get isApprover() {
+    return Id === this.aprovalProcessPathApprovalId;
+  }
+
+  get isErrorText() {
+    return this.errorText !== null;
+  }
+
+  get showEditor() {
+    return !this.isErrorText && !this.loader;
+  }
+
+  get approvalStatus() {
+    return getFieldValue(this.pathData.data, APPROVAL_STATUS);
+  }
+
+  handleRichTextChange(e) {
+    this.comment = e.target.value;
+  }
+
+  connectedCallback() {
+    this.loader = true;
   }
 
   async onSave() {
